@@ -1,0 +1,8 @@
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled){
+    @apply bg-gray-100 rounded-xl dark:bg-slate-950 text-gray-300 dark:text-gray-500 h-10 mt-0 pt-0 items-center;
+}
+
+::ng-deep .mdc-text-field--no-label:not(.mdc-text-field--textarea) .mat-mdc-form-field-input-control.mdc-text-field__input, 
+.mat-mdc-text-field-wrapper .mat-mdc-form-field-input-control{
+    @apply placeholder:text-gray-500 dark:placeholder:text-gray-500 h-10 text-gray-500 mt-0 pt-0;
+}

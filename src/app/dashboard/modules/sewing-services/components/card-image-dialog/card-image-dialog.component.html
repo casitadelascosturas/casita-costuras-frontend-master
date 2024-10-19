@@ -1,0 +1,31 @@
+<div class="rounded-lg" [@imageAnimation]="viewImage ? 'show-image' : 'hide-image'">
+  <div class="pl-0 pr-0">
+    <div (click)="selectMeasure(measure)" class="flex p-1 rounded-lg mb-1"
+         [ngClass]="{ 'bg-slate-950 text-gray-500 hover:bg-slate-800 hover:text-gray-300': themeDark, 
+                      'bg-gray-100 text-gray-400 hover:bg-gray-200': !themeDark }">
+      
+      <!-- Placeholder de imagen -->
+      @if (!viewImage) {
+        <div class="w-32 h-40 bg-gray-200 dark:bg-slate-700 animate-pulse"></div>
+      }
+
+      <!-- Imagen real -->
+      <img 
+        #image
+        width="100"
+        height="100" 
+        class="rounded-lg mr-2"
+        [ngSrc]="measure.image"
+        loading="lazy"
+        (load)="loadImageCard($event)"
+        [@imageAnimation]="viewImage ? 'show-image' : 'hide-image'"
+        alt="Imagen de medida">
+      
+      <!-- Detalles de la medida -->
+      <div>
+        <strong>{{ measure.name }}</strong>
+        <p>{{ measure.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>

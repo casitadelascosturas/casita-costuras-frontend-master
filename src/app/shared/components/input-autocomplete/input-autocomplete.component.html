@@ -1,0 +1,61 @@
+<mat-form-field class="w-full">
+   @if (iconLeft) {
+       <mat-icon matPrefix>{{ iconLeft }}</mat-icon>
+   }
+   <div class="relative">
+      <input 
+         matInput
+         [formControl]="getFormControl()"
+         [matAutocomplete]="auto"
+         [placeholder]="placeholder"
+         [required]="getValidatorRequired()"
+         (keyup)="changeInput($event)"
+         class="text-gray-600 bg-gray-200 py-2 px-10 w-full border-none
+         focus:border-gray-400 focus:outline-none focus:border
+         dark:border-slate-800 dark:bg-slate-950 dark:focus:border-slate-700 dark:text-white
+         disabled:opacity-50 disabled:cursor-not-allowed rounded-2xl">
+
+      <div class="absolute inset-y-0 left-0 pl-0 flex items-center pointer-events-none">
+         @if(icon){
+           <span class="top-1/4">
+              <mat-icon class="material-symbols-outlined text-slate-500 dark:text-slate-400 font-normal" aria-hidden="false" aria-label="Example home icon" fontIcon="{{ icon }}"></mat-icon>
+           </span>
+         }
+      </div>
+
+      <div class="absolute inset-y-0 -right-1 pr-0 flex items-center pointer-events-none">  
+         <span class="top-1/4">
+           @if(getFormControl().valid && itemSelect) {
+             <mat-icon class="material-symbols-outlined text-green-500 absolute -right-1 top-2">check_circle</mat-icon>
+           }
+           @if(!getFormControl().valid || !itemSelect) {
+             <mat-icon class="material-symbols-outlined text-red-500 absolute -right-1 top-2">cancel</mat-icon>
+              }
+         </span>
+      </div>
+   </div>
+   
+   @if (iconRight) {
+       <mat-icon matSuffix>{{ iconRight }}</mat-icon>
+   }
+   <mat-autocomplete 
+      #auto="matAutocomplete" 
+      [displayWith]="displayFn"
+      (optionSelected)="changeOptionsSelect($event)">
+       @for (option of (filteredOptions$ | async) ?? []; track option.value) {
+           <mat-option [value]="option">
+             {{ option.label }}
+           </mat-option>
+       } @empty {
+           <mat-option disabled>Sin opciones disponibles</mat-option>
+       }
+   </mat-autocomplete>
+   @if (helpMessage) {
+       <mat-hint>{{ helpMessage }}</mat-hint>
+   }
+   <!-- @if (getFormControl().invalid && getFormControl().touched) {
+       <mat-error>Este campo es requerido</mat-error>
+   } -->
+</mat-form-field>
+
+  

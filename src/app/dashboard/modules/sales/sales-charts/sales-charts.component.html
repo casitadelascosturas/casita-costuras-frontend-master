@@ -1,0 +1,94 @@
+<div class="text-gray-300 dark:text-gray-500 rounded-lg bg-white dark:bg-slate-900 m-1 p-3 text-center">
+    <p class="font-bold">Ventas de productos y servicios</p>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2">
+    <!-- VENTAS POR DIA DEL MES -->
+    <div>
+        <div class="text-gray-300 dark:text-gray-500 rounded-lg bg-white dark:bg-slate-900 m-1 p-3 text-center">
+            <p class="font-bold">Ventas Diarias del Mes</p>
+        </div>
+        
+        <div class="bg-white dark:bg-slate-900 m-1 p-1 text-gray-300 dark:text-gray-500 h-96 rounded-lg">
+            <ngx-charts-line-chart
+                class="fill-gray-500 dark:fill-gray-500"
+                [scheme]="'ocean'"
+                [results]="dailySalesData"
+                [xAxis]="true"
+                [yAxis]="true"
+                [legend]="false"
+                [showXAxisLabel]="true"
+                xAxisLabel="Fecha"
+                [showYAxisLabel]="true"
+                yAxisLabel="Ventas"
+                [autoScale]="true">
+            </ngx-charts-line-chart>
+        </div>
+        
+    </div>
+    <!-- VENTAS POR TRIMESTRE DEL AÑO -->
+    <div>
+        <p class="text-gray-300 dark:text-gray-500 rounded-lg bg-white dark:bg-slate-900 m-1 p-3 text-center">Ventas por trimestre</p>
+        <div class="bg-white dark:bg-slate-900 m-1 text-gray-300 dark:text-gray-500 h-96 rounded-lg">
+            <ngx-charts-bar-vertical-stacked
+                class="fill-gray-500 dark:fill-gray-500"
+                [scheme]="'forest'"
+                [results]="quarterData"
+                [gradient]="false"
+                [xAxis]="true"
+                [yAxis]="true"
+                [legend]="true"
+                [showDataLabel]="true"
+                [showXAxisLabel]="true"
+                xAxisLabel="Trimestre"
+                [showYAxisLabel]="true"
+                yAxisLabel="Ventas">
+            </ngx-charts-bar-vertical-stacked>
+        </div>
+    </div>
+    <!-- TOP 10 PRODUCTOS MAS VENDIDOS -->
+    <div>
+        <p class="text-gray-300 dark:text-gray-500 rounded-lg bg-white dark:bg-slate-900 m-1 p-3 text-center">Top 10 productos</p>
+        <div class="bg-white dark:bg-slate-900 m-1 text-gray-300 dark:text-gray-500 h-96 rounded-lg">
+            <ngx-charts-bar-horizontal
+                class="fill-gray-500 dark:fill-gray-500"
+                [scheme]="'picnic'"
+                [results]="productData"
+                [gradient]="false"
+                [xAxis]="true"
+                [yAxis]="true"
+                [legend]="false"
+                [showDataLabel]="true"
+                [showXAxisLabel]="true"
+                xAxisLabel="Unidades vendidas"
+                [showYAxisLabel]="true"
+                yAxisLabel="Producto"
+                [roundEdges]="true">
+            </ngx-charts-bar-horizontal>
+        </div>
+    </div>
+    <!-- TOP 10 SERVICIOS MAS SOLICITADOS -->
+    <div>
+        <p class="text-gray-300 dark:text-gray-500 rounded-lg bg-white dark:bg-slate-900 m-1 p-3 text-center">Top 10 servicios</p>
+        <div class="bg-white dark:bg-slate-900 m-1 text-gray-300 dark:text-gray-500 h-96 rounded-lg">
+            <ngx-charts-bar-horizontal
+                class="fill-gray-500 dark:fill-gray-500"
+                [scheme]="'natural'"
+                [results]="serviceData"
+                [gradient]="false"
+                [xAxis]="true"
+                [yAxis]="true"
+                [legend]="false"
+                [showDataLabel]="true"
+                [showXAxisLabel]="true"
+                xAxisLabel="Unidades vendidas"
+                [showYAxisLabel]="true"
+                yAxisLabel="Servicio"
+                [roundEdges]="true">
+            </ngx-charts-bar-horizontal>
+        </div>
+    </div>
+
+</div>
+
+

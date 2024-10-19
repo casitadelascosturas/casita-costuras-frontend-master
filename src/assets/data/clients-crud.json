@@ -1,0 +1,164 @@
+{
+    "name": "Clientes",
+    "description": "Permite la gestion de clientes.",
+    "service": "clients",
+    "icon": "groups",
+    "orderBy":"id",
+    "sort":"desc",
+    "path":"clientes",
+    "refresh": true,
+    "table":{
+        "columns": [
+            {
+              "name": "id",
+              "label": "ID",
+              "sortable": true,     
+              "filterable": true,  
+              "type": "number",
+              "class":"",
+              "style":"",
+              "icon":"badge"
+            },
+            {
+              "name": "name",
+              "label": "Nombre",
+              "sortable": true,     
+              "filterable": true,  
+              "type": "text",
+              "class":"",
+              "style":"",
+              "icon":"ink_pen"
+            },
+            {
+                "name": "location",
+                "label": "Ubicación",
+                "sortable": true,
+                "filterable": true,
+                "type": "text",
+                "class":"",
+                "style":"",
+                "icon":"pin_drop"
+            },
+            {
+                "name": "email",
+                "label": "Correo eléctronico",
+                "sortable": true,
+                "filterable": true,
+                "type": "text",
+                "class":"",
+                "style":"",
+                "icon":"email"
+            },
+            {
+                "name": "telephone",
+                "label": "Contacto",
+                "sortable": true,
+                "filterable": true,
+                "type": "text",
+                "class":"",
+                "style":"",
+                "icon":"add_call"
+            },
+            {
+                "name": "whatsapp",
+                "label": "Whatsapp",
+                "sortable": true,
+                "filterable": true,
+                "type": "boolean",
+                "values":[
+                    {"color":"emerald", "label":"Sí", "icon":"check_circle", "value": true },
+                    {"color":"red", "label":"No", "icon":"cancel", "value": false }
+                ],
+                "class":"",
+                "style":"",
+                "icon":"rule"
+            }
+          ],
+        "actions": [
+            {
+              "label": "Editar",
+              "value": "edit",
+              "icon": "edit",
+              "color": "emerald"
+            },
+            {
+              "label": "Eliminar",
+              "value": "delete",
+              "icon": "delete",
+              "color": "red"
+            }
+          ],
+        "pagination": [5, 10, 15],
+        "filter":{
+          "field":"name",
+          "type":"text",
+          "label":"Nombre de cliente",
+          "icon":"ink_pen",
+          "isObject":false,
+          "location":"",
+          "min":"2024-09-01",
+          "max":"2024-12-31"
+        }
+    },
+    "form": {
+      "defaultProperties":[],
+      "fields": [
+        {
+          "name": "name",
+          "label": "Nombre",
+          "type": "text",
+          "icon":"ink_pen",
+          "helpMessage":"Solo se aceptan caracteres alfanumericos.",
+          "validators": {
+            "required": true,
+            "minLength": 3
+          }
+        },
+        {
+            "name": "location",
+            "label": "Ubicación",
+            "type": "text",
+            "icon":"pin_drop",
+            "helpMessage":"Solo se aceptan caracteres alfanumericos.",
+            "validators": {
+              "required": false,
+              "minLength": 3
+            }
+        },
+        {
+            "name": "email",
+            "label": "Correo eléctronico",
+            "type": "text",
+            "icon":"mail",
+            "helpMessage":"Ingresa un correco electrónico válido.",
+            "validators": {
+              "required": false,
+              "minLength": 3,
+              "regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+            }
+        },
+        {
+            "name": "telephone",
+            "label": "Contacto",
+            "type": "text",
+            "icon":"add_call",
+            "helpMessage":"Solo se aceptan caracteres númericos.",
+            "validators": {
+              "required": false,
+              "minLength": 8,
+              "maxLength":10
+            }
+        },
+        {
+            "name": "whatsapp",
+            "label": "Whatsapp",
+            "type": "boolean",
+            "icon":"badge",
+            "helpMessage":"",
+            "validators": {
+              "required": false
+            }
+        }     
+      ]
+    }
+  }

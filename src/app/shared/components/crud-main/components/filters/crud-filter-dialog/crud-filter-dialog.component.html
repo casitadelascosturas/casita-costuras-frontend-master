@@ -1,0 +1,82 @@
+<p class="font-bold text-xl text-center border-b pb-2 dark:border-slate-800">Filtros</p>
+
+<div class="w-full p-3 border-b">
+<div class="w-full grid grid-cols-1 sm:grid-cols-1">
+  
+    @for (column of filterableColumns; track column.name) {
+
+        @if (column.type === 'text' && !column.resolver || column.type === 'number' && !column.resolver) {
+            <app-input
+                [form]="filterForm"
+                [name]="column.name"
+                [icon]="column.icon"
+                [label]="column.label"
+                [placeholder]="column.label"
+                [helpMessage]="column.helpMessage"
+                errorMessage="Error message."
+                [counter]="true"
+                [minlength]="1"
+                [maxlength]="80">
+            </app-input>
+        }
+
+        @if (column.type === 'text' && column.resolver && column.resolver !== '') {
+            <app-select
+                [form]="filterForm"
+                [name]="column.name"
+                [icon]="column.icon"
+                [label]="column.label"
+                [placeholder]="column.label"
+                errorMessage="Error message."
+                [load]="load"
+                [options]="getOptionsForColumn(column.name)">
+            </app-select>
+        }
+
+        @if (column.type === 'boolean') {
+            <app-select
+                [form]="filterForm"
+                [name]="column.name"
+                [icon]="column.icon"
+                [label]="column.label"
+                [placeholder]="column.label"
+                errorMessage="Error message."
+                [load]="load"
+                [options]="getOptionsForColumn(column.name)">
+            </app-select>
+        }
+
+        @if (column.type === 'date') {
+            <app-date-picker
+                [form]="filterForm"
+                [load]="load"
+                [minDate]="getDynamicDate(column.minDate)"
+                [maxDate]="getDynamicDate(column.maxDate)"
+                [name]="column.name"
+                [placeholder]="column.label">
+            </app-date-picker>
+        }
+
+        @if (column.type === 'autocomplete') {
+            <app-input-autocomplete
+                [form]="filterForm"
+                [load]="load"
+                [name]="column.name"
+                [label]="column.label"
+                [service]="column.service"
+                [placeholder]="column.label">
+            </app-input-autocomplete>
+        }
+    }
+</div>
+
+
+
+  <div class="flex justify-center align-middle">
+    <button (click)="ok()" [disabled]="load" class="btn-primary h-10 w-40 font-bold">
+      Filtrar
+    </button>
+  </div>
+
+
+</div>

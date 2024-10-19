@@ -1,0 +1,66 @@
+.expansion-panel-1.mat-expansion-panel{
+    @apply bg-gray-100 dark:bg-slate-900;
+}
+
+// Expansion Panel Body Style
+.expansion-panel-1.mat-expansion-panel .mat-expansion-panel-header {
+    @apply bg-gray-100 dark:bg-slate-950 text-gray-400;
+  }
+
+  
+// Expansion Panel Title on Hover
+    .expansion-panel-1.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=true]) {
+        // @apply bg-gray-200 dark:bg-slate-900 dark:border dark:border-slate-800;
+        @apply opacity-80
+    }
+
+    .expansion-panel-1.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=false]) {
+        @apply bg-gray-200 dark:bg-slate-900 dark:border dark:border-slate-800;
+    }
+
+    // Expansion Panel Title Text
+    .expansion-panel-1 .mat-expansion-panel-header-title {
+        @apply text-gray-400 dark:text-gray-500;
+    }
+  
+  // Expansion Panel Description Style
+  .expansion-panel-1 .mat-expansion-panel-header-description {
+    @apply  text-gray-400 dark:text-gray-500;
+  }
+  
+  // Active to Change Expansion Panel Height, Background-Color
+  .expansion-panel-1 .mat-expansion-panel-header.mat-expanded {
+    @apply bg-gray-100 dark:bg-slate-950;
+  }
+  
+  // Active to Change Expansion Panel Title Color
+  .expansion-panel-1 .mat-expansion-panel-header.mat-expanded .mat-expansion-panel-header-title {
+    @apply text-gray-400 dark:text-gray-500;
+  }
+  
+  // Active to Change Expansion Panel Description Color
+  .expansion-panel-1 .mat-expansion-panel-header.mat-expanded .mat-expansion-panel-header-description {
+    @apply text-gray-400 dark:text-gray-500;
+  }
+  
+  // Change Expansion Panel Content Color When Active
+  ::ng-deep .expansion-panel-1 .mat-expansion-panel-content {
+    @apply bg-gray-100 dark:bg-slate-900 text-gray-400 dark:text-gray-500 border dark:border-slate-800;
+  }
+  
+  // Change Padding in Expansion Toggle Body
+  ::ng-deep .expansion-panel-1 .mat-expansion-panel-body {
+    padding: 30px !important;
+  }
+  
+
+//ESTILOS EXPANSION PANEL EXMAPLE
+  .example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+    margin-left: 8px;
+  }
+  

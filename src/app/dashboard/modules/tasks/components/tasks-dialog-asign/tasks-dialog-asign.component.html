@@ -1,0 +1,21 @@
+<p class="font-bold text-xl text-center border-b pb-2 dark:border-slate-800">Asignación de tarea</p>
+
+<div class="w-full p-3 border-b">
+    <div class="w-full grid grid-cols-1 sm:grid-cols-1">
+        <app-select
+            [form]="form"
+            [name]="'user'"
+            [icon]="'person_edit'"
+            [label]="'Selecciona usuario'"
+            [placeholder]="'Selecciona usuario'"
+            errorMessage="Error message."
+            [load]="load"
+            [options]="usersList">
+        </app-select>
+    </div>
+    <div class="flex justify-center align-middle">
+        <button (click)="ok()" [disabled]="load || form?.invalid" class="btn-primary h-10 w-40 font-bold">
+        Asignar tarea
+        </button>
+    </div>
+</div>

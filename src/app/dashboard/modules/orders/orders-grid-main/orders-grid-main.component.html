@@ -1,0 +1,297 @@
+<app-header [headerTitle]="config?.name" [headerDescription]="config?.description" [headerIcon]="config?.icon"></app-header>
+
+<div style="height: 85vh;" class="bg-white dark:bg-slate-900 rounded-md shadow-md p-2 m-1 bg-opacity-90">
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
+    <!-- Botones de acciones (en pantallas móviles aparecen arriba) -->
+    @if (config?.refresh) {
+      @if (!load) {
+        <div class="buttons-filter w-full flex justify-end md:justify-between lg:justify-between space-x-2 lg:space-x-4 h-11 order-1 md:order-2 xl:order-2 lg:order-2">
+          <button (click)="openDialogFilters()" class="btn-success text-white px-4 py-2 rounded-md flex items-center space-x-1">
+            <mat-icon class="material-symbols-outlined">filter_list</mat-icon>
+            <span class="hidden lg:inline">Filtros</span>
+          </button>
+  
+          <button (click)="refreshData()" class="btn-refresh btn-info rounded-xl px-4 py-2 flex items-center space-x-1">
+            <mat-icon class="material-symbols-outlined">refresh</mat-icon>
+            <span class="hidden lg:inline">Refrescar</span>
+          </button>
+  
+          @if (getPermissionAction('new')) {
+            <button (click)="newItem()" class="btn-primary text-white px-4 py-2 rounded-md flex items-center space-x-1">
+              <mat-icon class="material-symbols-outlined">add</mat-icon>
+              <span class="hidden lg:inline">Nuevo</span>
+            </button>
+          }
+          
+        </div>
+      }
+
+      @if (load) {
+        <div class="animate-pulse buttons-filter w-full flex justify-end md:justify-between lg:justify-between space-x-2 lg:space-x-4 h-11 order-1 md:order-2 xl:order-2 lg:order-2">
+          <button class="btn-success text-white px-4 py-2 rounded-md flex items-center space-x-1">
+            <mat-icon class="material-symbols-outlined opacity-30">filter_list</mat-icon>
+            <span class="hidden lg:inline opacity-30">Filtros</span>
+          </button>
+  
+          <button class="btn-refresh btn-info rounded-xl px-4 py-2 flex items-center space-x-1">
+            <mat-icon class="material-symbols-outlined opacity-30">refresh</mat-icon>
+            <span class="hidden lg:inline opacity-30">Refrescar</span>
+          </button>
+  
+          <button class="btn-primary text-white px-4 py-2 rounded-md flex items-center space-x-1">
+            <mat-icon class="material-symbols-outlined opacity-30">add</mat-icon>
+            <span class="hidden lg:inline opacity-30">Nuevo</span>
+          </button>
+        </div>
+      }
+    }
+
+    <!-- Input para filtros (en pantallas móviles aparece abajo) -->
+    <div class="input-filter w-full flex justify-center items-center space-x-2 h-11 order-2 md:order-1 xl:order-1 lg:order-1">
+      @if (filterForm) {
+        @if (config?.table?.filter?.type !== 'date') {
+          <app-crud-filter-input style="width: 100% !important"
+            [form]="filterForm"
+            [name]="config?.table?.filter?.field"
+            [icon]="config?.table?.filter?.icon"
+            [label]="config?.table?.filter?.label"
+            [placeholder]="config?.table?.filter?.label"
+            [counter]="false"
+            [minlength]="(config?.table?.filter?.min && config?.table?.filter?.min !== '') ? getValueNumber(config?.table?.filter?.min) : null"
+            [maxlength]="(config?.table?.filter?.min && config?.table?.filter?.min !== '') ? getValueNumber(config?.table?.filter?.max) : null"
+            [load]="load"
+            (changes)="changes($event)"
+            (enter)="enter($event)"
+            (clear)="clear($event)">
+          </app-crud-filter-input>
+        }
+        @if (config?.table?.filter?.type === 'date') {
+          <app-crud-filter-input-date
+            [form]="filterForm"
+            [name]="config?.table?.filter?.field"
+            [icon]="config?.table?.filter?.icon"
+            [label]="config?.table?.filter?.label"
+            [load]="load"
+            [minDate]="(config?.table?.filter?.min && config?.table?.filter?.min !== '') ? getDynamicDate(config?.table?.filter?.min) : null"
+            [maxDate]="(config?.table?.filter?.max && config?.table?.filter?.max !== '') ? getDynamicDate(config?.table?.filter?.max) : null"
+            (changes)="changes($event)"
+            (clear)="clear($event)">
+          </app-crud-filter-input-date>
+        }
+
+        @if(!load){
+          <button (click)="enter(true)" class="m-1 btn-refresh btn-success text-white px-4 py-2 rounded-md flex items-center space-x-1">
+            <mat-icon class="material-symbols-outlined">search</mat-icon>
+          </button>
+        }
+        @if(load){
+          <button class="m-1 btn-refresh btn-success text-white px-4 py-2 rounded-md flex items-center space-x-1 animate-pulse">
+            <mat-icon class="material-symbols-outlined opacity-20">search</mat-icon>
+          </button>
+        }
+        
+      }
+    </div>
+  </div>
+
+    <!-- Tabla de datos -->
+   @if(!load && config?.table){
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)" 
+            matSortActive="created" matSortDirection="desc" matSortDisableClear
+            class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+        <!-- Definición de columnas -->
+
+        @for (column of config.table.columns; track column.name) {
+          <ng-container [matColumnDef]="column.name">
+            <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.name" [ngStyle]="column.style || {}">
+              {{ column.label }}
+            </th>
+            <td mat-cell *matCellDef="let item" [ngClass]="column.class">
+              <!-- Verifica si es un objeto -->
+              @if (column.isObject && column.path) {
+                @if(column.type === 'boolean'){
+                    <!-- {{ getValueFromPath(item, column.path) }} -->
+                    <mat-icon class="material-symbols-outlined" [ngClass]="'text-' + column.values[0].color + '-500'">{{ column.values[0].icon }}</mat-icon>
+                }@else {
+                    {{ getValueFromPath(item, column.path) }}
+                }
+
+              } @else if(column.type === 'boolean'){
+                @for (itemValue of column.values; track itemValue) {
+
+                    @if(itemValue.value === item[column.name]){
+                        @if(itemValue.label && itemValue.label !== ''){
+                            <mat-icon 
+                            #tooltip="matTooltip"
+                            [matTooltip]="itemValue.label"
+                            [matTooltipPosition]="position" 
+                            aria-label="Button that displays a tooltip that hides when scrolled out of the container"
+                            class="material-symbols-outlined opacity-60 dark:opacity-70"
+                            [ngClass]="'text-' + itemValue.color + '-500'"> {{ itemValue.icon }}
+                            </mat-icon>
+                        } @else{
+                            <mat-icon class="material-symbols-outlined" [ngClass]="'text-' + itemValue.color + '-500'"> {{ itemValue.icon }} </mat-icon>
+                        }
+                    }
+                }
+              } @else if(column.type === 'date'){
+                {{ item[column.name] | date:'d \'de\' MMMM \'de\' y' }}
+              }@else {
+                {{ (column.format && column.format === true) ? formateCurrency(item[column.name]) : item[column.name] }}
+              }
+            </td>
+          </ng-container>
+        }
+  
+        <!-- Acciones -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let item" class="example-ripple-container flex">
+
+            <button (click)="handleAction('VIEW', item)" mat-icon-button>
+              <mat-icon 
+                  class="material-symbols-outlined"
+                  [ngClass]="'text-blue-500 opacity-60 dark:opacity-70'"
+                  #tooltip="matTooltip"
+                  [matTooltip]="'Ver detalles'"
+                  [matTooltipPosition]="position" 
+                  aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+                  visibility
+              </mat-icon>
+            </button>
+
+            @if (item.status === 'PENDING' || item.status === 'IN_PROCESS' || item.status === 'LATE') {
+              <button (click)="handleAction('PRINT', item)" mat-icon-button>
+                <mat-icon 
+                    class="material-symbols-outlined"
+                    [ngClass]="'text-emerald-500 opacity-60 dark:opacity-70'"
+                    #tooltip="matTooltip"
+                    [matTooltip]="'Imprir etiquetas'"
+                    [matTooltipPosition]="position" 
+                    aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+                    print
+                </mat-icon>
+              </button>
+            }
+
+            @if (item.status === 'PENDING_DELIVERY') {
+              <button (click)="handleAction('FINALIZED', item)" mat-icon-button>
+                <mat-icon 
+                    class="material-symbols-outlined"
+                    [ngClass]="'text-emerald-500 opacity-60 dark:opacity-70'"
+                    #tooltip="matTooltip"
+                    [matTooltip]="'Entregar pedido'"
+                    [matTooltipPosition]="position" 
+                    aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+                    orders
+                </mat-icon>
+              </button>
+            }
+
+
+            @if (item.status !== 'PENDING_DELIVERY' && item.status !== 'CANCEL' && item.status !== 'PENDING_DELIVERY' && item.status !== 'FINALIZED') {
+              <button (click)="handleAction('CANCEL', item)" mat-icon-button>
+                <mat-icon 
+                    class="material-symbols-outlined"
+                    [ngClass]="'text-red-500 opacity-60 dark:opacity-70'"
+                    #tooltip="matTooltip"
+                    [matTooltip]="'Cancelar pedido'"
+                    [matTooltipPosition]="position" 
+                    aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+                    cancel
+                </mat-icon>
+              </button>
+            }
+
+            <!-- @for (action of config.table.actions; track action.value) {
+              @if (getPermissionAction(action.value)) {
+                <button (click)="handleAction(action, item)" mat-icon-button>
+                  <mat-icon 
+                      class="material-symbols-outlined"
+                      [ngClass]="'text-'+action.color+'-500 opacity-60 dark:opacity-70'"
+                      #tooltip="matTooltip"
+                      [matTooltip]="action.label"
+                      [matTooltipPosition]="position" 
+                      aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+                      {{ action.icon }}
+                  </mat-icon>
+                </button>
+              }
+            } -->
+          </td>
+        </ng-container>
+  
+        <!-- Fila de encabezado -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <!-- Filas de datos -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- Paginación -->
+    @if (config?.table?.pagination) {
+      <mat-paginator 
+      [showFirstLastButtons]="true"
+      [length]="totalItems" 
+      [pageSize]="pageSize" 
+      [pageSizeOptions]="config.table.pagination"
+      [pageIndex]="currentPage"
+      (page)="onPageChange($event)">
+    </mat-paginator>
+    }
+   }@else if(load && config?.table){
+    <table mat-table [dataSource]="fakeDataSource" matSort (matSortChange)="onSortChange($event)" 
+    matSortActive="created" matSortDirection="desc" matSortDisableClear
+    class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+    <!-- Definición de columnas -->
+      @for (column of config.table.columns; track column.name; let idx = $index, e = $even, o = $odd) {
+        <ng-container [matColumnDef]="column.name">
+          <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.name" [ngClass]="column.class" [ngStyle]="column.style || {}">
+            {{ column.label }}
+          </th>
+          <td mat-cell *matCellDef="let item">
+            <div  class="pl-2 pr-3 bg-transparent rounded-md pb-2 pt-2 flex gap-1 animate-pulse  items-center space-x-2 px-4 py-2">
+              <div [ngClass]="{ 'bg-gray-300 dark:bg-slate-800': e, 'bg-gray-400 dark:bg-slate-700': o }" class="h-4 rounded w-full"></div>
+            </div>
+          </td>
+        </ng-container>
+      }
+      <!-- Acciones -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let item" class="example-ripple-container">
+          @if (!load) {
+            @for (action of config.table.actions; track action.value) {
+              <button mat-icon-button>
+                <mat-icon 
+                    class="material-symbols-outlined"
+                    [ngClass]="'text-'+action.color+'-500 opacity-60 dark:opacity-70'"
+                    #tooltip="matTooltip"
+                    [matTooltip]="action.label"
+                    [matTooltipPosition]="position" 
+                    aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+                    {{ action.icon }}
+                </mat-icon>
+              </button>
+            }
+          }
+
+          @if (load) {
+            <div class="pl-2 pr-3 bg-gray-100 dark:bg-transparent rounded-md pb-2 pt-2 flex gap-1 animate-pulse  items-center space-x-2 px-4 py-2">
+              @for (action of config.table.actions; track action.value) {
+                <div [ngClass]="'bg-'+action.color+'-400 dark:bg-'+action.color+'-700'" class="rounded-lg h-6 w-6"></div>
+              }
+            </div>
+          }
+        </td>
+      </ng-container>
+
+      <!-- Fila de encabezado -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <!-- Filas de datos -->
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+   }
+  
+
+  </div>

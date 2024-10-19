@@ -1,0 +1,92 @@
+/*** ESTILOS DE TABLA*/ 
+
+//FILAS
+.mat-mdc-row:nth-child(odd) {
+    @apply bg-gray-200 dark:bg-slate-900 text-slate-500 dark:text-gray-400 border-none;
+  }
+  
+  .mat-mdc-row:nth-child(even) {
+    @apply bg-gray-50 dark:bg-slate-950 text-slate-500 dark:text-gray-400 border-none;
+  }
+  
+  //CELDAS
+  .mat-mdc-cell {
+    // border: none !important;
+    @apply border-none;
+  }
+  
+  //HEADER
+  .mat-mdc-header-row {
+    @apply bg-gray-50 dark:bg-slate-950 text-gray-500  dark:text-gray-500 border-none;
+  }
+  
+  //PAGINATOR
+  ::ng-deep .mat-mdc-paginator {
+    @apply bg-gray-50 dark:bg-slate-950;
+    color: inherit;
+  }
+  
+  ::ng-deep .mat-mdc-paginator .mat-mdc-paginator-range-label,
+  ::ng-deep .mat-mdc-paginator .mat-mdc-paginator-page-size-label,
+  ::ng-deep .mat-mdc-paginator .mat-mdc-select-value-text {
+    @apply text-gray-400 dark:text-gray-500 font-medium text-sm;
+  }
+  
+  ::ng-deep .mat-mdc-paginator .mat-mdc-select-arrow {
+    color: inherit !important;
+  }
+  
+  /**** Estilos personalizados para centrar elementos en MatPaginator ****/
+  ::ng-deep .mat-paginator {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  
+  ::ng-deep .mat-mdc-paginator-range-label {
+    display: flex;
+    justify-content: left;
+    flex: 1;
+  }
+  
+  ::ng-deep .mat-mdc-paginator-range-actions {
+    display: flex;
+    flex: 1;
+  }
+  
+  ::ng-deep .mat-mdc-paginator-page-size {
+    display: flex;
+    justify-content: right;
+    flex: 1;
+  }
+
+// Estilos de botones habilitados de paginación
+
+::ng-deep .mat-mdc-paginator-range-actions .mat-mdc-paginator-navigation-last,
+::ng-deep .mat-mdc-paginator-range-actions .mat-mdc-paginator-navigation-next,
+::ng-deep .mat-mdc-paginator-range-actions .mat-mdc-paginator-navigation-previous,
+::ng-deep .mat-mdc-paginator-range-actions .mat-mdc-paginator-navigation-first {
+  @apply rounded-full bg-gray-300 dark:bg-slate-900 m-1 p-1;
+  
+  .mat-mdc-paginator-icon {
+    @apply fill-slate-500 dark:fill-slate-500;
+  }
+}
+
+// Estilos de botones inhabilitados de paginación
+::ng-deep .mat-mdc-paginator .mat-mdc-paginator-navigation-previous.mat-mdc-button-disabled .mat-mdc-paginator-icon,
+::ng-deep .mat-mdc-paginator .mat-mdc-paginator-navigation-next.mat-mdc-button-disabled .mat-mdc-paginator-icon,
+::ng-deep .mat-mdc-paginator .mat-mdc-paginator-navigation-last.mat-mdc-button-disabled .mat-mdc-paginator-icon,
+::ng-deep .mat-mdc-paginator .mat-mdc-paginator-navigation-first.mat-mdc-button-disabled .mat-mdc-paginator-icon {
+    @apply fill-gray-400 dark:fill-slate-700;
+}
+
+
+
+::ng-deep .mat-sort-header-arrow {
+  @apply text-red-500; /* Aplica el color usando Tailwind */
+}
+
+::ng-deep .mat-sort-header-arrow.mat-sort-header-arrow-active {
+  @apply text-green-500; /* Color cuando el sort está activo */
+}

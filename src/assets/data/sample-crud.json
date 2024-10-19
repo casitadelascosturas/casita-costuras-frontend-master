@@ -1,0 +1,264 @@
+{
+    "name": "Usuarios",
+    "description": "Permite la gestion de roles y usuarios",
+    "service": "/api/tareas",
+    "icon": "task_alt",
+    "refresh": true,
+    "table": {
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID",
+          "sortable": true,
+          "filterable": true,
+          "type": "number",
+          "class": "",
+          "style": ""
+        },
+        {
+          "name": "name",
+          "label": "Nombre",
+          "sortable": true,
+          "filterable": true,
+          "type": "text",
+          "class": "",
+          "style": ""
+        },
+        {
+          "name": "verifyEmail",
+          "label": "Verificado",
+          "sortable": true,
+          "filterable": true,
+          "type": "boolean",
+          "values": [
+            { "color": "green", "icon": "check_circle", "label": "Verificado", "value": true },
+            { "color": "red", "icon": "cancel", "label": "No Verificado", "value": false }
+          ],
+          "class": "",
+          "style": ""
+        },
+        {
+          "name": "email",
+          "label": "Correo Electrónico",
+          "sortable": true,
+          "filterable": true,
+          "type": "text",
+          "class": "",
+          "style": ""
+        },
+        {
+          "name": "isActiveUser",
+          "label": "Usuario Activo",
+          "sortable": true,
+          "filterable": true,
+          "object": true,
+          "type": "boolean",
+          "path": "user.verifyEmail",
+          "values": [
+            { "color": "green", "icon": "check_circle", "label": "Activo", "value": true },
+            { "color": "red", "icon": "cancel", "label": "Inactivo", "value": false }
+          ],
+          "class": "",
+          "style": ""
+        },
+        {
+          "name": "role",
+          "label": "Rol",
+          "sortable": true,
+          "filterable": true,
+          "object": true,
+          "type": "text",
+          "path": "role.name",
+          "class": "",
+          "style": ""
+        },
+        {
+          "name": "amountTarget",
+          "label": "Monto Destino",
+          "sortable": true,
+          "filterable": true,
+          "object": true,
+          "type": "number",
+          "format": true,
+          "path": "target.amount",
+          "class": "",
+          "style": ""
+        },
+        {
+          "name": "dateD",
+          "label": "Fecha de Entrega",
+          "sortable": true,
+          "filterable": true,
+          "object": true,
+          "type": "date",
+          "formatDate": "dd-MM-yyyy",
+          "path": "order.date",
+          "class": "",
+          "style": ""
+        },
+        {
+          "name": "createdAt",
+          "label": "Fecha de Creación",
+          "sortable": true,
+          "filterable": true,
+          "type": "date",
+          "formatDate": "dddd, MMMM dd, yyyy",
+          "class": "",
+          "style": ""
+        },
+        {
+          "name": "amount",
+          "label": "Cantidad",
+          "sortable": true,
+          "filterable": true,
+          "type": "number",
+          "format": true,
+          "class": "",
+          "style": ""
+        }
+      ],
+      "actions": [
+        {
+          "label": "Editar",
+          "value": "edit",
+          "icon": "edit"
+        },
+        {
+          "label": "Eliminar",
+          "value": "delete",
+          "icon": "delete"
+        },
+        {
+          "label": "Imprimir",
+          "value": "print",
+          "icon": "print",
+          "service": "/api/imprimir-tareas"
+        },
+        {
+          "label": "Exportar",
+          "value": "export",
+          "icon":"scan_delete",
+          "service": "/api/exportar-tareas"
+        }
+      ],
+      "pagination": [5, 10, 15]
+    },
+    "form": {
+        "default-properties":[
+            { "field": "verifyEmail", "type": "boolean", "value": false },
+            { "field": "reset", "type": "boolean", "value": false },
+            { "field": "passwordTemp", "type": "boolean", "value": true },
+            { "field": "details", "type": "array", "value": [] },
+            { "field": "status", "type": "text", "value": "PENDING" },
+            { "field": "quantity", "type": "number", "value": 12 },
+            { "field": "createAt", "type": "date", "value": "" }
+        ],
+      "fields": [
+        {
+          "name": "name",
+          "label": "Nombre",
+          "type": "text",
+          "icon": "person",
+          "validators": {
+            "required": true,
+            "minLength": 3
+          }
+        },
+        {
+          "name": "dueDate",
+          "label": "Fecha Límite",
+          "type": "date",
+          "icon": "calendar_today",
+          "validators": {
+            "required": true,
+            "min": "2024-01-01",
+            "max": "2024-12-31"
+          }
+        },
+        {
+          "name": "amount",
+          "label": "Monto",
+          "type": "number",
+          "icon": "attach_money",
+          "validators": {
+            "required": true,
+            "min": 1,
+            "max": 100
+          }
+        },
+        {
+          "name": "status",
+          "label": "Estado",
+          "type": "select",
+          "icon": "home",
+          "resolver": "statusResolver",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "statusOrder",
+          "label": "Estado de Orden",
+          "type": "select",
+          "icon": "home",
+          "values": [
+            { "label": "Iniciar", "value": 1 },
+            { "label": "En proceso", "value": 2 },
+            { "label": "Finalizado", "value": 3 }
+          ],
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "active",
+          "label": "Activo",
+          "type": "toggle",
+          "icon": "toggle_on",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "termsAccepted",
+          "label": "Aceptar términos",
+          "type": "checkbox",
+          "icon": "check_box",
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "genero",
+          "label": "Género Usuario",
+          "type": "radio-button",
+          "icon": "wc",
+          "values": [
+            { "label": "Masculino", "value": "M" },
+            { "label": "Femenino", "value": "F" }
+          ],
+          "validators": {
+            "required": true
+          }
+        },
+        {
+          "name": "genero_Destino",
+          "label": "Género Usuario",
+          "type": "radio-button",
+          "icon": "wc",
+          "resolver": "optionsGResolver",
+          "validators": {
+            "required": true
+          }
+        }
+      ]
+    },
+    "custom": {
+      "path_new": "/dashboard/tareas/nueva",
+      "path_edit": "/dashboard/tareas/editar/"
+    },
+    "print": {
+      "service": "/api/imprimir-todas-tareas"
+    }
+  }
+  

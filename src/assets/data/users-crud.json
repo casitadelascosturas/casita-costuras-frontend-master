@@ -1,0 +1,198 @@
+{
+    "name": "Usuarios",
+    "description": "Permite la gestion de roles y usuarios",
+    "service": "users",
+    "icon": "group",
+    "orderBy":"id",
+    "sort":"desc",
+    "path":"usuarios",
+    "refresh": true,
+    "table":{
+        "columns": [
+            {
+              "name": "id",
+              "label": "ID",
+              "sortable": true,     
+              "filterable": true,  
+              "type": "number",
+              "class":"",
+              "style":"",
+              "icon":"badge"
+            },
+            {
+              "name": "name",
+              "label": "Nombre",
+              "sortable": true,     
+              "filterable": true,  
+              "type": "text",
+              "class":"",
+              "style":"",
+              "icon":"badge"
+            },
+            {
+                "name": "username",
+                "label": "Usuario",
+                "sortable": true,
+                "filterable": true,
+                "type": "text",
+                "class":"",
+                "style":"",
+                "icon":"account_box"
+            },
+            {
+              "name": "role",
+              "label": "Rol",
+              "sortable": true,
+              "filterable": true,
+              "isObject": true,
+              "type": "text",
+              "path": "role.name",
+              "resolver": "roles",
+              "class":"",
+              "style":"",
+              "icon":"supervisor_account"
+            },
+            {
+                "name": "email",
+                "label": "Correo eléctronico",
+                "sortable": true,
+                "filterable": true,
+                "type": "text",
+                "class":"",
+                "style":"",
+                "icon":"mail"
+            },
+            {
+                "name": "verifyEmail",
+                "label": "Verificado",
+                "sortable": true,
+                "filterable": true,
+                "type": "boolean",
+                "values":[
+                    {"color":"emerald", "label":"Verificado", "icon":"check_circle", "value": true },
+                    {"color":"red", "label":"No verificado", "icon":"cancel", "value": false }
+                ],
+                "class":"",
+                "style":"",
+                "icon":"mark_email_read"
+            },
+            {
+                "name": "view_own_data",
+                "label": "Ver datos propios",
+                "sortable": true,
+                "filterable": true,
+                "type": "boolean",
+                "values":[
+                    {"color":"emerald", "label":"Permitido", "icon":"check_circle", "value": true },
+                    {"color":"red", "label":"No permitido", "icon":"cancel", "value": false }
+                ],
+                "class":"",
+                "style":"",
+                "icon":"mark_email_read"
+            }
+          ],
+        "actions": [
+            {
+              "label": "Editar",
+              "value": "edit",
+              "icon": "edit",
+              "color": "emerald"
+            },
+            {
+              "label": "Eliminar",
+              "value": "delete",
+              "icon": "delete",
+              "color": "red"
+            }
+          ],
+        "pagination": [5, 10, 15],
+        "filter":{
+          "field":"username",
+          "type":"text",
+          "label":"Nombre de usuario",
+          "icon":"badge",
+          "isObject":false,
+          "location":"",
+          "min":"2024-09-01",
+          "max":"2024-12-31"
+        }
+    },
+    "form": {
+      "defaultProperties":[
+            { "label":"Reinicio de contraseña", "field": "reset", "type": "boolean", "value": false, "icon":"" },
+            { "label":"Contraseña Temporal", "field": "passwordTemp", "type": "boolean", "value": true, "icon":"" },
+            { "label":"Usuario verificado", "field": "verifyEmail", "type": "boolean", "value": true, "icon":"" }
+        ],
+      "fields": [
+        {
+          "name": "name",
+          "label": "Nombre",
+          "type": "text",
+          "icon":"badge",
+          "helpMessage":"Solo se aceptan caracteres alfanumericos.",
+          "validators": {
+            "required": true,
+            "minLength": 3
+          }
+        },
+        {
+            "name": "username",
+            "label": "Nombre de usuario",
+            "type": "text",
+            "icon":"account_box",
+            "helpMessage":"Solo se aceptan caracteres alfanumericos sin espacios.",
+            "validators": {
+              "required": true,
+              "minLength": 3,
+              "regex": "^(?=.*[A-Za-z])[A-Za-z0-9]+$"
+            }
+        },
+        {
+            "name": "password",
+            "label": "Contraseña",
+            "type": "text",
+            "icon":"password",
+            "helpMessage":"Se aceptan caracteres alfanumericos y simbolos.",
+            "validators": {
+              "required": true,
+              "minLength": 3,
+              "regex": ""
+            }
+        },
+        {
+            "name": "email",
+            "label": "Correo eléctronico",
+            "type": "text",
+            "icon":"mail",
+            "helpMessage":"Ingresa un correco electrónico válido.",
+            "validators": {
+              "required": true,
+              "minLength": 3,
+              "regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+            }
+        },
+        {
+            "name": "roleId",
+            "label": "Rol de usuario",
+            "type": "select",
+            "icon":"supervisor_account",
+            "resolver": "roles", 
+            "validators": {
+              "required": true,
+              "multiple": false,
+              "regex": ""
+            }
+        },
+        {
+          "name": "view_own_data",
+          "label": "Ver datos propios",
+          "type": "boolean",
+          "icon":"",
+          "helpMessage":"",
+          "validators": {
+            "required": false
+          }
+        }       
+      ]
+    }
+  }

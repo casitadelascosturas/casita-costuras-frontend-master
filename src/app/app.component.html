@@ -1,0 +1,7 @@
+<ngx-spinner type="square-jelly-box">
+  <p class="text-white">Espere...</p>
+</ngx-spinner>
+
+<div [ngClass]="{ dark: this.themeService.isDark }">
+  <router-outlet />
+</div>

@@ -1,0 +1,111 @@
+@if (!load) {
+  <div class="buttons-filter w-full flex justify-end md:justify-end lg:justify-end space-x-2 lg:space-x-4 h-11 order-1 md:order-2 xl:order-2 lg:order-2 mt-2 mb-2">
+    <button (click)="openDialog()" class="btn-primary text-white px-4 py-2 rounded-md flex items-center space-x-1">
+      <mat-icon class="material-symbols-outlined">design_services</mat-icon>
+      <span class="hidden lg:inline">Agregar servicio</span>
+    </button>
+</div>
+}@else if(load){
+  <div class="w-full flex justify-end items-center p-2">
+    <button class="btn-primary text-white px-4 py-2 rounded-md flex items-center space-x-1  animate-pulse">
+      <div class="rounded-full bg-emerald-300 h-6 w-6"></div>
+      <div class="h-4 bg-emerald-400 rounded w-14"></div>
+    </button>
+  </div>
+}
+
+@if (!load) {
+  @for (item of servicesList; track item.id; let indexService = $index) {
+    <mat-accordion class="example-headers-align">
+      <mat-expansion-panel [expanded]="true" class="expansion-panel-1 border-2 border-gray-300 border-dashed dark:border-gray-500 mt-1" h ideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{ (formsGroup[indexService].controls['price_final'].valid) ? formatCurrency(formsGroup[indexService].controls['price_final'].value) : 'Sin precio venta' }} </mat-panel-title>
+          <mat-panel-description>
+            <p class="text-gray-500">{{ item.name }}</p>
+            @if (formsGroup[indexService].invalid) {
+              <mat-icon matTooltip="Datos incompletos del servicio" [matTooltipPosition]="positionOption" class="material-symbols-outlined text-red-400">cancel</mat-icon>
+            }@else if(formsGroup[indexService].valid){
+              <mat-icon matTooltip="Datos completos" [matTooltipPosition]="positionOption" class="material-symbols-outlined text-emerald-500">check_circle</mat-icon>
+            }
+
+            <button (click)="delteItem(item)" matTooltip="Eliminar Servicio" [matTooltipPosition]="positionOption" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+              <mat-icon class="material-symbols-outlined text-red-500">delete</mat-icon>
+            </button>
+            
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        
+
+        <div class="w-full text-lg mb-4 pb-2 bg-emerald-500 dark:bg-slate-950 rounded-lg dark:opacity-100">
+          <p class="text-gray-100 dark:text-slate-500 text-base text-center">Información General</p>
+        </div>
+
+        <div class="flex">
+          <p class="text-red-500 mr-1">Q {{ item.init_price.toFixed(2)}}</p> - <p class="ml-1 text-emerald-500">Q {{item.end_price.toFixed(2) }}</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <app-input
+              [form]="formsGroup[indexService]"
+              name="price_final"
+              icon="payments"
+              label="Precio de venta"
+              placeholder="Precio de venta"
+              helpMessage="Sólo se aceptan caracteres numericos"
+              errorMessage="Error message."
+              [counter]="true"
+              [min]="item.init_price"
+              [minlength]="1"
+              [maxlength]="10">
+            </app-input>
+        </div>
+
+        <div class="w-full text-lg mb-4 pb-2 bg-emerald-500 dark:bg-slate-950 rounded-lg">
+          <p class="text-gray-100 dark:text-slate-500 text-base text-center">Medidas de {{ item.name }}</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          @for (detail of item.details; track $index) {
+            <div class="flex border-2 border-dashed border-gray-300 dark:border-slate-800 rounded-lg p-2">
+              <img 
+                  [matTooltip]="detail.description ?? 'Sin detalles'" [matTooltipPosition]="positionOption"
+                  class="m-2 rounded-lg"
+                  height="30"
+                  width="80"
+                  [srcset]="detail.image"
+                  loading="lazy"
+                  alt="Imagen de medida">
+
+                <div>
+                <div class="font-bold text-sm">{{ getMeasure(detail.measure_value) }}</div>
+                  <app-input 
+                  [form]="getDetailsFormGroup(indexService)"
+                  name="detail_{{ detail.id }}"
+                  icon="straighten"
+                  label="{{ detail.name }}"
+                  placeholder="{{ detail.name }}"
+                  helpMessage="Ingresa caracteres alfanumericos"
+                  errorMessage="Error message."
+                  [counter]="false"
+                  [minlength]="1"
+                  [maxlength]="20">
+                </app-input>
+                </div>
+            </div>
+          }
+        </div>
+      </mat-expansion-panel>
+  
+    </mat-accordion>
+  }@empty {
+    <div class="text-gray-400 dark:text-gray-500 mt-3 mb-3 flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-500 rounded-lg h-40">
+      <mat-icon class="material-symbols-outlined">report</mat-icon>
+      <p class="">No existen servicios agregados</p>
+    </div>
+  }
+}@else if(load){
+  <div class="animate-pulse text-gray-400 dark:text-gray-500 mt-3 mb-3 flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-500 rounded-lg h-40">
+    <div class="rounded-full mr-2 bg-gray-300 h-6 w-6"></div>
+    <div class="h-4 bg-gray-400 rounded w-48"></div>
+  </div>
+}

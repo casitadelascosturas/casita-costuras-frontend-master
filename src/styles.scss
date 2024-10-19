@@ -1,0 +1,112 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the theme object.
+$casita-costuras-frontend-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  density: (
+    scale: 0,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+:root {
+  @include mat.all-component-themes($casita-costuras-frontend-theme);
+}
+
+// Comment out the line below if you want to use the pre-defined typography utility classes.
+// For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
+// @include mat.typography-hierarchy($casita-costuras-frontend-theme);
+
+// Comment out the line below if you want to use the deprecated `color` inputs.
+// @include mat.color-variants-backwards-compatibility($casita-costuras-frontend-theme);
+/* You can add global styles to this file, and also import other style files */
+
+// html, body { height: 100%; }
+// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import '../src/assets/scss/inputs.scss';
+@import '../src/assets/scss/buttons.scss';
+@import '../src/assets/scss/tables.scss';
+@import '../src/assets/scss/dialogs.scss';
+@import '../src/assets/scss/icons.scss';
+@import '@angular/cdk/overlay-prebuilt.css';
+
+
+@layer components {
+	.dropdown-content {
+		@apply pointer-events-none scale-95 opacity-0 duration-100 ease-in;
+	}
+
+	.dropdown:hover > .dropdown-content {
+		@apply pointer-events-auto block scale-100 opacity-100 duration-200;
+	}
+}
+
+.bgc-primary{
+  background-color: #00C793;
+  @apply text-white;
+}
+
+.bgc-success{
+  background-color: #3887BF;
+}
+
+.bgc-info{
+  background-color: #9DABB4;
+}
+
+// content responsive
+
+.content-sm {
+  @apply  block sm:hidden;
+}
+
+.content-desktop {
+  @apply hidden sm:block md:block lg:block xl:block 2xl:block;
+}
+
+.content-desktop-custom {
+  @apply hidden sm:block md:block lg:block xl:block 2xl:block;
+}
+
+.content-desktop-test {
+  @apply hidden sm:block md:block lg:block xl:block 2xl:block;
+}
+
+
+:host ::ng-deep .cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.7); // Fondo oscuro con transparencia
+}
+
+:host ::ng-deep .mat-dialog-container {
+  @apply bg-gray-900 text-gray-100;  // Fondo y color del texto del diálogo en modo oscuro
+}
+
+.dark ::ng-deep .cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.7); // Asegurarte de que el fondo sea oscuro en modo oscuro
+}
+
+.dark ::ng-deep .mat-dialog-container {
+  background-color: #1e293b;  // Color de fondo del diálogo en modo oscuro
+  color: #cbd5e1;             // Color del texto en modo oscuro
+}

@@ -1,0 +1,89 @@
+<div class="flex justify-center items-center h-full w-full">
+  <!-- Contenedor principal -->
+  <div class="w-full">
+    <!-- Dropzone -->
+    @if (!loadImgTemp && !load) {
+      <div class="drop-zone border-2 border-dashed border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-950 p-4 text-center rounded-lg"
+        appDragAndDrop
+        [file]="file"
+        (mouseOver)="mouseOver($event)"
+        (urlLocalImage)="urlLocalImage($event)"
+        (dropFile)="dropFile($event)"
+        [multiple]="multiple"
+        [ngClass]="{ 'file-over border-emerald-500 text-emerald-500': thisOverElement, 'border-gray-300 text-gray-500 dark:text-gray-400': !thisOverElement }">
+        <!-- Icono de imagen ajustado -->        
+        <mat-icon 
+          class="material-symbols-outlined icon-image" 
+          aria-hidden="false" 
+          fontIcon="image">
+        </mat-icon>
+
+        <!-- Mensajes -->
+        @if (!thisOverElement) {
+          <p class="text-gray-500 dark:text-gray-400 mb-2 mt-0">Arraste el archivo aquí o haz click para seleccionar un archivo.</p>
+        } @else {
+          <p class="text-emerald-500">Suelta el archivo aquí.</p>
+        }
+
+        <!-- Input de archivo oculto -->
+         @if (multiple) {
+            <input
+              (change)="changeInputFile($event)"
+              type="file"
+              id="inputFileImage"
+              class="hidden"
+              accept="image/*"
+              multiple/>
+         } @else {
+          <input
+            (change)="changeInputFile($event)"
+            type="file"
+            id="inputFileImage"
+            class="hidden"
+            accept="image/*"/>
+          }
+
+          <!-- Botón de selección de archivo -->
+          @if(!thisOverElement) {
+            <label class="btn-primary p-2 h-10 w-36 font-semibold"
+              for="inputFileImage">
+              Seleccionar archivo
+            </label>
+          }
+      </div>
+    }
+
+    <!-- Vista previa de imagen -->
+    @if (loadImgTemp && !load) {
+      <div class="flex flex-col items-center mt-4">
+        <div class="w-full">
+          <img class="w-full rounded-lg" [src]="srcPreviewImg" alt="Cargando">
+        </div>
+        <!-- Botón para eliminar imagen -->
+        <div class="mt-4 rounded-lg w-20">
+          <button mat-button matRipple (click)="clearDragAndDrop()">
+            <mat-icon class="material-symbols-outlined m-0 text-red-500" aria-hidden="false" fontIcon="delete"></mat-icon>
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- Carga de imagen con progreso -->
+    @if (load) {
+      <div class="mt-4 flex flex-col items-center">
+        <!-- Barra de progreso -->
+        <div class="w-full bg-gray-100 dark:bg-gray-700 rounded-lg animate-pulse h-36 border-2 border-dashed border-gray-300 flex justify-center items-center">
+
+            <div>
+                <mat-icon 
+                  class="material-symbols-outlined icon-image mb-4 text-gray-400" 
+                  aria-hidden="false" 
+                  fontIcon="image">
+                </mat-icon>
+                <p class="text-gray-400 font-bold">Cargando</p>
+            </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,130 @@
+{
+    "name": "Detalles de servicios",
+    "description": "Permite la gestión de medidas para las prendas de cada servicio.",
+    "service": "measures",
+    "icon": "straighten",
+    "orderBy":"id",
+    "sort":"desc",
+    "path":"clientes",
+    "refresh": true,
+    "table":{
+        "columns": [
+            {
+              "name": "id",
+              "label": "ID",
+              "sortable": true,     
+              "filterable": true,  
+              "type": "number",
+              "class":"",
+              "style":"",
+              "icon":"badge"
+            },
+            {
+              "name": "name",
+              "label": "Nombre",
+              "sortable": true,     
+              "filterable": true,  
+              "type": "text",
+              "class":"",
+              "style":"",
+              "icon":"ink_pen"
+            },
+            {
+              "name": "measure_value",
+              "label": "Unidad de medida",
+              "sortable": true,     
+              "filterable": true,  
+              "type": "text",
+              "resolver": "unitMeasure",
+              "class":"",
+              "style":"",
+              "icon":"square_foot"
+            },
+            {
+                "name": "description",
+                "label": "Descripción",
+                "sortable": true,
+                "filterable": true,
+                "type": "text",
+                "class":"",
+                "style":"",
+                "icon":"edit_note"
+            }
+          ],
+        "actions": [
+            {
+              "label": "Editar",
+              "value": "edit",
+              "icon": "edit",
+              "color": "emerald"
+            },
+            {
+              "label": "Eliminar",
+              "value": "delete",
+              "icon": "delete",
+              "color": "red"
+            }
+          ],
+        "pagination": [5, 10, 15],
+        "filter":{
+          "field":"name",
+          "type":"text",
+          "label":"Nombre detalle",
+          "icon":"ink_pen",
+          "isObject":false,
+          "location":"",
+          "min":"2024-09-01",
+          "max":"2024-12-31"
+        }
+    },
+    "form": {
+      "defaultProperties":[],
+      "fields": [
+        {
+          "name": "name",
+          "label": "Nombre",
+          "type": "text",
+          "icon":"ink_pen",
+          "helpMessage":"Solo se aceptan caracteres alfanumericos.",
+          "validators": {
+            "required": true,
+            "minLength": 3
+          }
+        },
+        {
+            "name": "description",
+            "label": "Descripción",
+            "type": "text",
+            "icon":"edit_note",
+            "helpMessage":"Solo se aceptan caracteres alfanumericos.",
+            "validators": {
+              "required": false,
+              "minLength": 3,
+              "maxLength": 200
+            }
+        },
+        {
+            "name": "measure_value",
+            "label": "Unidad de medida",
+            "type": "select",
+            "resolver":"unitMeasure",
+            "icon":"square_foot",
+            "helpMessage":"",
+            "validators": {
+              "required": true
+            }
+        },
+        {
+            "name": "image",
+            "label": "Imagen",
+            "type": "file",
+            "accept": ".png, .jpg, .jpeg",
+            "icon":"add_call",
+            "helpMessage":"Solo se aceptan imagenes.",
+            "validators": {
+              "required": true
+            }
+        }    
+      ]
+    }
+  }

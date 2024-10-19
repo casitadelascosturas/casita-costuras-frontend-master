@@ -1,0 +1,17 @@
+<mat-form-field class="w-72 sm:w-72 md:w-72 lg:w-72 xl:w-72" (click)="picker.open()" [floatLabel]="getFloatLabelValue()">
+  @if (!getFormControl().value) {
+  <mat-label class="text-gray-500 dark:text-gray-400">{{ label }}</mat-label>
+  }
+  <input
+    matInput
+    readonly
+    [matDatepicker]="picker"
+    (dateChange)="change($event)"
+    [min]="minDate" [max]="maxDate"
+    [formControl]="getFormControl()"/>
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <button class="p-0 m-0" mat-icon-button matIconSuffix (click)="clearDate($event)">
+    <mat-icon class="material-symbols-outlined text-gray-500 font-normal dark:text-gray-500">cancel</mat-icon>
+  </button>
+  <mat-datepicker #picker disabled="false"></mat-datepicker>
+</mat-form-field>

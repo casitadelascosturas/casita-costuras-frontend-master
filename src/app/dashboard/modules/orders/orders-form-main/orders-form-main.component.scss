@@ -1,0 +1,73 @@
+
+
+//cambiar color de texto del header
+:host::ng-deep .mat-mdc-tab .mdc-tab__text-label, 
+:host::ng-deep .mat-mdc-tab-link .mdc-tab__text-label {
+    @apply dark:text-gray-500 text-gray-400
+}
+
+// change Active Tab Header Label Color (Success Color)
+
+::ng-deep .mat-mdc-tab-group.mat-primary .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label,
+::ng-deep .mat-mdc-tab-group.mat-primary .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label,
+::ng-deep .mat-mdc-tab-nav-bar.mat-primary .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label,
+::ng-deep .mat-mdc-tab-nav-bar.mat-primary .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+    @apply text-emerald-500 dark:text-emerald-500;
+}
+
+// change Background Ripple Color on Click (Success Color)
+
+::ng-deep .mat-mdc-tab-group.mat-primary .mdc-tab__ripple::before,
+::ng-deep .mat-mdc-tab-group.mat-primary .mat-mdc-tab .mat-ripple-element,
+::ng-deep .mat-mdc-tab-nav-bar.mat-primary .mat-mdc-tab-header-pagination .mat-ripple-element,
+::ng-deep .mat-mdc-tab-nav-bar.mat-primary .mat-mdc-tab-link .mat-ripple-element {
+  @apply bg-emerald-600 rounded-lg;
+
+}
+
+// change border Color tab active(Success Color)
+:host::ng-deep .mat-mdc-tab-group.mat-primary .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, 
+:host::ng-deep .mat-mdc-tab-group.mat-primary .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, 
+:host::ng-deep .mat-mdc-tab-nav-bar.mat-primary .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, 
+:host::ng-deep .mat-mdc-tab-nav-bar.mat-primary .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline{
+ @apply border-emerald-500 border-2 rounded-lg;
+}
+
+
+:host::ng-deep .mat-mdc-tab-label-container{
+ @apply border-b dark:border-slate-700;
+}
+
+  
+
+
+
+//estilos steper
+
+:host ::ng-deep .mat-horizontal-stepper-wrapper {
+  @apply bg-white dark:bg-slate-900;
+}
+
+:host ::ng-deep .mat-step-text-label{
+  @apply text-gray-500 dark:text-gray-400;
+}
+
+:host ::ng-deep .mat-step-icon{
+  @apply dark:bg-slate-700;
+}
+
+:host ::ng-deep .mat-step-icon-selected{
+  background-color: rgb(59 130 246) !important;
+}
+
+:host ::ng-deep .mat-stepper-horizontal-line{
+  @apply dark:bg-gray-500;
+}
+
+:host ::ng-deep .mat-step-icon-state-done{
+  @apply bg-emerald-500 dark:bg-emerald-500
+}
+
+:host ::ng-deep .mat-horizontal-content-container{
+  padding: 0;
+}

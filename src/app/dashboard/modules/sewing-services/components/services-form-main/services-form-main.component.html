@@ -1,0 +1,133 @@
+<!-- HEADER -->
+<app-header [headerIcon]="icon" [headerTitle]="title" [headerDescription]="description"></app-header>
+
+<div class="p-2 m-2 bg-white rounded dark:bg-slate-900 border dark:border-slate-800">
+  <div class="w-full border-b text-lg dark:border-slate-700 mb-4 pb-1 flex justify-between">
+
+    <p class="text-gray-400 dark:text-gray-400 font-bold">{{ showTitleForm }} {{ (mode !== 'new') ? '#' + id : '' }}</p>
+
+    @if (load) {
+      <div class="pl-2 pr-3 bg-gray-100 dark:bg-slate-950 rounded-md pb-2 pt-2 flex gap-1 animate-pulse  items-center space-x-2 px-4 py-2">
+        <div class="rounded-full bg-slate-700 h-6 w-6"></div>
+        <div class="h-4 bg-slate-500 rounded w-14"></div>
+      </div>
+    }
+    @if (!load) {
+      <button (click)="back()" class="btn-back">
+        <mat-icon class="material-symbols-outlined" aria-hidden="false" aria-label="Example home icon" fontIcon="arrow_back_ios"></mat-icon>
+        <p class="hidden sm:block text-sm font-bold">Regresar</p>
+      </button>
+    }
+    
+  </div>
+  
+  <div class="w-full text-lg dark:border-slate-700 mb-4 pb-1/2">
+    <p class="text-gray-400 dark:text-slate-500 text-base">Información General</p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <!-- Recorrer los campos del formulario -->
+    @if (form) {
+      @for (field of config.form.fields; track field.name) {
+      
+        <!-- Si el campo es de tipo texto o número, renderizar app-input -->
+        @if (field.type === 'text' || field.type === 'number') {
+          <app-input
+            [form]="form"
+            [name]="field.name"
+            [icon]="field.icon"
+            [label]="field.label"
+            [placeholder]="field.label"
+            [helpMessage]="field.helpMessage"
+            errorMessage="Error message."
+            [minlength]="field.validators?.minLength || 0"
+            [maxlength]="field.validators?.maxLength || 80"
+            [counter]="true"
+            [load]="load">
+          </app-input>
+        }
+    
+        <!-- Si el campo es de tipo boolean, renderizar app-toggle -->
+        @if (field.type === 'boolean') {
+          <app-toggle
+            [form]="form"
+            [name]="field.name"
+            [label]="field.label"
+            [load]="load">
+          </app-toggle>
+        }
+    
+        <!-- Si el campo es de tipo select, renderizar app-select -->
+        @if (field.type === 'select') {
+          <app-select
+            [form]="form"
+            [name]="field.name"
+            [label]="field.label"
+            [placeholder]="field.label"
+            [icon]="field.icon"
+            [load]="load"
+            [options]="getOptionsForColumn(field.name)">
+          </app-select>
+        }
+
+        @if (field.type === 'file'){
+          <app-input-file-upload
+          [file]="selectedFile"
+          [imageUrl]="imageUrl"
+          [load]="load"
+          (drop)="onFileDropped($event)"
+          (deleteOneFile)="onFileDeleted()"
+          [multiple]="false">
+          </app-input-file-upload>
+        }
+      }
+    }
+  </div>
+
+
+  <div class="border-dashed border-2 rounded-lg border-gray-300 dark:border-gray-500 text-gray-300 dark:text-gray-500 h-auto p-2">
+    <p class="text-gray-400 text-xs dark:text-slate-500 m-0 text-left">
+      <b>Nota: </b> <br> 
+      - <b>Costo</b> de ser menor a <b>Máximo Precio</b> y <b></b>  <b>Ultimo Precio</b>. <br>
+      - <b>Ultimo Precio</b> debe ser menor a <b>Máximo Precio</b> y mayor a <b>Costo</b>.
+    </p>
+  </div>
+
+  <div class="w-full text-lg dark:border-slate-700 mb-2 pb-2 border-t pt-3 mt-8 flex justify-between">
+    <p class="text-gray-400 dark:text-slate-500 text-base">Detalles de servicio</p>
+    
+    <button (click)="addServiceDetail()" [disabled]="form?.invalid" class="btn-success pl-2 pr-3  rounded-md pb-2 pt-2 flex gap-1">
+        <mat-icon class="material-symbols-outlined" aria-hidden="false" aria-label="Example home icon" fontIcon="add_circle"></mat-icon>
+        <p class="hidden sm:block text-sm font-bold">Agregar Detalle</p>
+    </button>
+
+  </div>
+
+
+  @if(details.length > 0){
+    <app-services-details
+    [details]="details"
+    (delete)="deleteServiceDetail($event)">
+    </app-services-details>  
+  }@else {
+    <div class="border-dashed border-2 rounded-lg border-gray-300 dark:border-gray-500 text-gray-300 dark:text-gray-500 p-3 flex justify-center items-center w-full m-0 h-32">
+        <p class="text-center w-full">Sin detalles</p>
+    </div>
+    
+  }
+
+  <div class="w-full border-b dark:border-slate-700 pb-3 pt-3 flex justify-center sm:justify-end mb-2">
+    @if(!load && modeCreate){
+        <button (click)="save()" [disabled]="form?.invalid || !fileComplete" class="btn-primary h-10 w-36 font-bold">Guardar</button>
+    } 
+
+    @if(!load && modeUpdate){
+        <button (click)="save()" [disabled]="form.invalid || !fileComplete" class="btn-primary h-10 w-36 font-bold">Actualizar</button>
+    } 
+
+    @if(load){
+      <button class="btn-primary h-10 w-36 font-bold animate-pulse"></button>
+    }
+  </div>
+
+</div>

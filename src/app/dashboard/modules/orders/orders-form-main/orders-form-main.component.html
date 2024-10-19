@@ -1,0 +1,114 @@
+<app-header [headerIcon]="'pending_actions'" [headerTitle]="'Pedidos'" [headerDescription]="'Permite la gestion de pedidos de servicios y productos para los clientes.'"></app-header>
+
+<div class="p-2 m-2 bg-white rounded dark:bg-slate-900 border dark:border-slate-800">
+    <div class="w-full border-b text-lg dark:border-slate-700 flex justify-between mb-2">
+        <p class="text-gray-400 dark:text-gray-400 font-bold m-auto">{{ 'Nuevo pedido' }}</p>
+    
+        @if (load) {
+          <div class="pl-2 pr-3 bg-gray-100 dark:bg-slate-950 rounded-md pb-2 pt-2 flex gap-1 animate-pulse  items-center space-x-2 px-4 py-2">
+            <div class="rounded-full bg-slate-700 h-6 w-6"></div>
+            <div class="h-4 bg-slate-500 rounded w-14"></div>
+          </div>
+        }
+        @if (!load) {
+          <button (click)="back()" class="btn-back">
+            <mat-icon class="material-symbols-outlined" aria-hidden="false" aria-label="Example home icon" fontIcon="arrow_back_ios"></mat-icon>
+            <p class="hidden sm:block text-sm font-bold">Regresar</p>
+          </button>
+        }
+        
+    </div>
+
+    <div class="buttons-filter w-full flex justify-between md:justify-between lg:justify-between space-x-2 lg:space-x-4 h-11">
+
+      @if (!load) {
+        <div class="text-gray-300 dark:text-gray-500 p-2 bg-gray-100 dark:bg-slate-950 rounded-lg flex items-center justify-center">
+          <p class="font-semibold">Total a pagar: </p> 
+          <p class="font-bold text-emerald-500 ml-2">Q {{ totalServicesAndProducts ?? '00.00' }}</p>
+        </div>
+      }@else if(load){
+        <div class="text-gray-300 dark:text-gray-500 p-2 bg-gray-100 dark:bg-slate-950 rounded-lg flex items-center justify-center animate-pulse">
+          <p class="font-semibold">Cargando...</p> 
+        </div>
+      }
+
+      @if (CurrentStepIndex === 0 && !load) {
+        <button [disabled]="!validateNextStep()" (click)="nextStep()" class="btn-success text-white px-4 py-2 rounded-md flex items-center space-x-1">
+          <mat-icon class="material-symbols-outlined">arrow_forward_ios</mat-icon>
+          <span class="hidden lg:inline">Siguiente</span>
+        </button>
+      } @else if (CurrentStepIndex === 1 && !load) {
+        <button [disabled]="!getGeneralInfo()" (click)="saveOrder()" class="btn-primary text-white px-4 py-2 rounded-md flex items-center space-x-1">
+          <mat-icon class="material-symbols-outlined">save</mat-icon>
+          <span class="hidden lg:inline">Guardar</span>
+        </button>
+      } @else if(CurrentStepIndex === 0 && load){
+        <button class="btn-success text-white px-4 py-2 rounded-md flex items-center space-x-1  animate-pulse">
+          <div class="rounded-full bg-blue-300 h-6 w-6"></div>
+          <div class="h-4 bg-blue-400 rounded w-14"></div>
+        </button>
+      } @else if (CurrentStepIndex === 1 && load) {
+        <button class="btn-primary text-white px-4 py-2 rounded-md flex items-center space-x-1  animate-pulse">
+          <div class="rounded-full bg-emerald-300 h-6 w-6"></div>
+          <div class="h-4 bg-emerald-400 rounded w-14"></div>
+        </button>
+      }
+    </div>
+  
+    <mat-stepper linear #stepper>
+
+      <mat-step label="Selección de servicios y productos" state="services" [completed]="validateNextStep()">
+
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" color="primary">
+          <mat-tab label="Servicios">
+            <app-order-add-service
+              [load]="load">
+            </app-order-add-service>
+          </mat-tab>
+          <mat-tab label="Productos">
+            <app-order-add-product
+              [load]="load">
+            </app-order-add-product>
+          </mat-tab>
+        </mat-tab-group>  
+        
+      </mat-step>
+
+      <mat-step label="Información general del pedido" state="products">
+        <app-order-add-general-info>
+        </app-order-add-general-info>
+      </mat-step>
+    
+      <ng-template matStepperIcon="services">
+        <mat-icon>design_services</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="products">
+        <mat-icon>inventory_2</mat-icon>
+      </ng-template>
+    </mat-stepper>
+    
+    <div class="buttons-filter w-full flex justify-end md:justify-end lg:justify-end space-x-2 lg:space-x-4 h-11 mt-2">
+      @if (CurrentStepIndex === 0 && !load) {
+        <button [disabled]="!validateNextStep()" (click)="nextStep()" class="btn-success text-white px-4 py-2 rounded-md flex items-center space-x-1">
+          <mat-icon class="material-symbols-outlined">arrow_forward_ios</mat-icon>
+          <span class="hidden lg:inline">Siguiente</span>
+        </button>
+      } @else if (CurrentStepIndex === 1 && !load) {
+        <button [disabled]="!getGeneralInfo()" (click)="saveOrder()" class="btn-primary text-white px-4 py-2 rounded-md flex items-center space-x-1">
+          <mat-icon class="material-symbols-outlined">save</mat-icon>
+          <span class="hidden lg:inline">Guardar</span>
+        </button>
+      } @else if(CurrentStepIndex === 0 && load){
+        <button class="btn-success text-white px-4 py-2 rounded-md flex items-center space-x-1  animate-pulse">
+          <div class="rounded-full bg-blue-300 h-6 w-6"></div>
+          <div class="h-4 bg-blue-400 rounded w-14"></div>
+        </button>
+      } @else if (CurrentStepIndex === 1 && load) {
+        <button class="btn-primary text-white px-4 py-2 rounded-md flex items-center space-x-1  animate-pulse">
+          <div class="rounded-full bg-emerald-300 h-6 w-6"></div>
+          <div class="h-4 bg-emerald-400 rounded w-14"></div>
+        </button>
+      }
+    </div>
+    
+</div>

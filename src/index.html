@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>CosturApp</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link rel="icon" type="image/x-icon" href="favicon.ico"> -->
+  <link rel="icon" type="image/png" href="assets/logo-no-fondo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="preconnect" href="https://storage.googleapis.com">
+  <style>
+    /* Muestra un fondo y posiciona el loader en el centro de la pantalla */
+    #initial-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro semitransparente */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999; /* Asegura que esté sobre cualquier contenido */
+    }
+  </style>
+</head>
+<body>
+    <!-- Loader inicial -->
+    <div id="initial-loader">
+      <ngx-spinner type="square-jelly-box">
+        <p class="text-white">Espere...</p>
+      </ngx-spinner>
+    </div>
+
+  <app-root></app-root>
+</body>
+</html>

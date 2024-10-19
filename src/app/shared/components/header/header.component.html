@@ -1,0 +1,16 @@
+<div class="md:p-1 m-2 bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-md p-2 text-center md:text-left md:rounded">
+  <div class="ml-2 text-slate-500 dark:text-gray-500">
+    <div class="flex">
+      @if (icon && icon !== '') {
+        <mat-icon 
+          class="material-symbols-outlined text-lg" 
+          aria-hidden="false" 
+          aria-label="Example home icon" 
+          fontIcon="{{icon}}">
+        </mat-icon>
+      }
+      <h1 class="ml-2 text-lg font-bold">{{ title }}</h1>
+    </div>
+    <p class="text-xs hidden sm:block">{{ description }}</p>
+  </div>
+</div>
